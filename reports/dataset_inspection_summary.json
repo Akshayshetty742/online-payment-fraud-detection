@@ -1,0 +1,227 @@
+{
+  "inspection_timestamp": "2026-10-26T11:26:23.669663",
+  "filename": "new_data.csv",
+  "file_path": "C:\\Users\\shett\\OneDrive\\Desktop\\mlbd\\data\\raw\\new_data.csv",
+  "file_size_bytes": 241172414,
+  "file_size_mb": 230.0,
+  "dimensions": {
+    "rows": 3114353,
+    "columns": 11
+  },
+  "duplicate_rows": {
+    "count": 0,
+    "percentage": 0.0
+  },
+  "target_column": "isFraud",
+  "target_analysis": {
+    "isFraud": {
+      "unique_values": [
+        0,
+        1
+      ],
+      "distribution": {
+        "0": {
+          "count": 3111694,
+          "percentage": 99.9146
+        },
+        "1": {
+          "count": 2659,
+          "percentage": 0.0854
+        }
+      },
+      "imbalance_ratio": "1170.25:1"
+    },
+    "isFlaggedFraud": {
+      "unique_values": [
+        0,
+        1
+      ],
+      "distribution": {
+        "0": {
+          "count": 3114352,
+          "percentage": 100.0
+        },
+        "1": {
+          "count": 1,
+          "percentage": 0.0
+        }
+      },
+      "imbalance_ratio": "3114352.0:1"
+    }
+  },
+  "columns_info": [
+    {
+      "column": "step",
+      "dtype": "int64",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 236,
+      "sample_values": "1, 1, 1"
+    },
+    {
+      "column": "type",
+      "dtype": "str",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 5,
+      "sample_values": "PAYMENT, PAYMENT, TRANSFER"
+    },
+    {
+      "column": "amount",
+      "dtype": "float64",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 2819687,
+      "sample_values": "9839.64, 1864.28, 181.0"
+    },
+    {
+      "column": "nameOrig",
+      "dtype": "str",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 3112055,
+      "sample_values": "C1231006815, C1666544295, C1305486145"
+    },
+    {
+      "column": "oldbalanceOrg",
+      "dtype": "float64",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 1007150,
+      "sample_values": "170136.0, 21249.0, 181.0"
+    },
+    {
+      "column": "newbalanceOrig",
+      "dtype": "float64",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 1340601,
+      "sample_values": "160296.36, 19384.72, 0.0"
+    },
+    {
+      "column": "nameDest",
+      "dtype": "str",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 1322698,
+      "sample_values": "M1979787155, M2044282225, C553264065"
+    },
+    {
+      "column": "oldbalanceDest",
+      "dtype": "float64",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 1789913,
+      "sample_values": "0.0, 0.0, 0.0"
+    },
+    {
+      "column": "newbalanceDest",
+      "dtype": "float64",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 1635807,
+      "sample_values": "0.0, 0.0, 0.0"
+    },
+    {
+      "column": "isFraud",
+      "dtype": "int64",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 2,
+      "sample_values": "0, 0, 1"
+    },
+    {
+      "column": "isFlaggedFraud",
+      "dtype": "int64",
+      "non_null_count": 3114353,
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 2,
+      "sample_values": "0, 0, 0"
+    }
+  ],
+  "numerical_features_summary": {
+    "step": {
+      "mean": 128.2565,
+      "std": 77.6647,
+      "min": 1.0,
+      "25%": 39.0,
+      "50% (median)": 154.0,
+      "75%": 188.0,
+      "max": 236.0
+    },
+    "amount": {
+      "mean": 158546.1669,
+      "std": 268208.8516,
+      "min": 0.0,
+      "25%": 12744.41,
+      "50% (median)": 76911.12,
+      "75%": 212253.85,
+      "max": 10000000.0
+    },
+    "oldbalanceOrg": {
+      "mean": 843161.9683,
+      "std": 2909341.5687,
+      "min": 0.0,
+      "25%": 0.0,
+      "50% (median)": 14599.0,
+      "75%": 113374.0,
+      "max": 38939424.03
+    },
+    "newbalanceOrig": {
+      "mean": 864721.5613,
+      "std": 2945796.7399,
+      "min": 0.0,
+      "25%": 0.0,
+      "50% (median)": 0.0,
+      "75%": 153381.04,
+      "max": 38946233.02
+    },
+    "oldbalanceDest": {
+      "mean": 996592.4,
+      "std": 2303332.0892,
+      "min": 0.0,
+      "25%": 0.0,
+      "50% (median)": 139077.31,
+      "75%": 946675.74,
+      "max": 42655769.2
+    },
+    "newbalanceDest": {
+      "mean": 1104047.3373,
+      "std": 2385704.0806,
+      "min": 0.0,
+      "25%": 0.0,
+      "50% (median)": 225911.5,
+      "75%": 1130956.83,
+      "max": 42655769.2
+    },
+    "isFraud": {
+      "mean": 0.0009,
+      "std": 0.0292,
+      "min": 0.0,
+      "25%": 0.0,
+      "50% (median)": 0.0,
+      "75%": 0.0,
+      "max": 1.0
+    },
+    "isFlaggedFraud": {
+      "mean": 0.0,
+      "std": 0.0006,
+      "min": 0.0,
+      "25%": 0.0,
+      "50% (median)": 0.0,
+      "75%": 0.0,
+      "max": 1.0
+    }
+  }
+}

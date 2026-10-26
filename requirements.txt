@@ -1,0 +1,20 @@
+# Core Data Science & Inspection (Phase 1 & 2)
+pandas>=2.0.0
+numpy>=1.24.0
+scikit-learn>=1.2.0
+requests>=2.28.0
+tqdm>=4.65.0
+
+# Visualization & Reporting
+matplotlib>=3.7.0
+seaborn>=0.12.0
+tabulate>=0.9.0
+
+# Framework Requirements (To be evaluated in Phase 3)
+# Note: Can be installed as needed per framework
+xgboost>=2.0.0
+# torch>=2.0.0
+# fastai>=2.7.0
+# pytorch-tabnet>=4.1.0
+# lightning-flash>=0.8.0
+# keras>=3.0.0
