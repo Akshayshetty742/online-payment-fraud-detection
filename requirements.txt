@@ -9,12 +9,14 @@ tqdm>=4.65.0
 matplotlib>=3.7.0
 seaborn>=0.12.0
 tabulate>=0.9.0
+python-pptx>=1.0.0
 
-# Framework Requirements (To be evaluated in Phase 3)
-# Note: Can be installed as needed per framework
+# Framework Requirements
 xgboost>=2.0.0
-# torch>=2.0.0
-# fastai>=2.7.0
-# pytorch-tabnet>=4.1.0
-# lightning-flash>=0.8.0
-# keras>=3.0.0
+torch>=2.0.0
+fastai>=2.8.0
+pytorch-tabnet>=4.1.0
+keras>=3.0.0
+# Note on Lightning Flash: Upstream lightning-flash is deprecated/archived;
+# pytorch-lightning is used for the modular task abstraction.
+pytorch-lightning>=2.0.0

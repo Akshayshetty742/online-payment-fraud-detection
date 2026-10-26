@@ -1,0 +1,578 @@
+{
+  "results": [
+    {
+      "experiment_name": "Exp 1: Full Baseline (Current 18 features)",
+      "n_features": 18,
+      "features_used": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "isFlaggedFraud",
+        "hour_of_day",
+        "day_of_week",
+        "errorBalanceOrig",
+        "errorBalanceDest",
+        "orig_emptied",
+        "dest_zero_start",
+        "dest_zero_end",
+        "is_merchant_dest",
+        "amount_to_oldbalance_ratio",
+        "type_CASH_OUT",
+        "type_TRANSFER"
+      ],
+      "RMSE": 0.01143,
+      "R2": 0.98027,
+      "MAE": 0.00019,
+      "PR_AUC": 0.99477,
+      "ROC_AUC": 0.9993,
+      "F1_Score": 0.99,
+      "Precision": 0.99,
+      "Recall": 0.99,
+      "TP": 198,
+      "FP": 2,
+      "TN": 29798,
+      "FN": 2,
+      "train_time_s": 1.5,
+      "rationale": "Direct reproduction of baseline XGBoost model"
+    },
+    {
+      "experiment_name": "Exp 2: Exclude isFlaggedFraud (17 features)",
+      "n_features": 17,
+      "features_used": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "hour_of_day",
+        "day_of_week",
+        "errorBalanceOrig",
+        "errorBalanceDest",
+        "orig_emptied",
+        "dest_zero_start",
+        "dest_zero_end",
+        "is_merchant_dest",
+        "amount_to_oldbalance_ratio",
+        "type_CASH_OUT",
+        "type_TRANSFER"
+      ],
+      "RMSE": 0.01092,
+      "R2": 0.98198,
+      "MAE": 0.00018,
+      "PR_AUC": 0.99395,
+      "ROC_AUC": 0.99923,
+      "F1_Score": 0.99,
+      "Precision": 0.99,
+      "Recall": 0.99,
+      "TP": 198,
+      "FP": 2,
+      "TN": 29798,
+      "FN": 2,
+      "train_time_s": 1.72,
+      "rationale": "Verifies whether the static business rule column drives performance"
+    },
+    {
+      "experiment_name": "Exp 3: Exclude errorBalanceOrig (17 features)",
+      "n_features": 17,
+      "features_used": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "isFlaggedFraud",
+        "hour_of_day",
+        "day_of_week",
+        "errorBalanceDest",
+        "orig_emptied",
+        "dest_zero_start",
+        "dest_zero_end",
+        "is_merchant_dest",
+        "amount_to_oldbalance_ratio",
+        "type_CASH_OUT",
+        "type_TRANSFER"
+      ],
+      "RMSE": 0.00836,
+      "R2": 0.98945,
+      "MAE": 0.00018,
+      "PR_AUC": 0.99024,
+      "ROC_AUC": 0.99721,
+      "F1_Score": 0.99497,
+      "Precision": 1.0,
+      "Recall": 0.99,
+      "TP": 198,
+      "FP": 0,
+      "TN": 29800,
+      "FN": 2,
+      "train_time_s": 1.47,
+      "rationale": "Tests model reliance specifically on the origin balance discrepancy"
+    },
+    {
+      "experiment_name": "Exp 4: Exclude All Engineered Discrepancies (15 features)",
+      "n_features": 15,
+      "features_used": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "isFlaggedFraud",
+        "hour_of_day",
+        "day_of_week",
+        "dest_zero_start",
+        "dest_zero_end",
+        "is_merchant_dest",
+        "amount_to_oldbalance_ratio",
+        "type_CASH_OUT",
+        "type_TRANSFER"
+      ],
+      "RMSE": 0.0108,
+      "R2": 0.98239,
+      "MAE": 0.00022,
+      "PR_AUC": 0.99078,
+      "ROC_AUC": 0.9988,
+      "F1_Score": 0.99,
+      "Precision": 0.99,
+      "Recall": 0.99,
+      "TP": 198,
+      "FP": 2,
+      "TN": 29798,
+      "FN": 2,
+      "train_time_s": 1.44,
+      "rationale": "Tests whether tree splits can reconstruct discrepancies using raw balances alone"
+    },
+    {
+      "experiment_name": "Exp 5: Strict Pre-Transaction Features (Pre-Auth Only, 10 features)",
+      "n_features": 10,
+      "features_used": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "oldbalanceDest",
+        "hour_of_day",
+        "day_of_week",
+        "is_merchant_dest",
+        "amount_to_oldbalance_ratio",
+        "type_CASH_OUT",
+        "type_TRANSFER"
+      ],
+      "RMSE": 0.01784,
+      "R2": 0.95193,
+      "MAE": 0.00051,
+      "PR_AUC": 0.98884,
+      "ROC_AUC": 0.99742,
+      "F1_Score": 0.9703,
+      "Precision": 0.96078,
+      "Recall": 0.98,
+      "TP": 196,
+      "FP": 8,
+      "TN": 29792,
+      "FN": 4,
+      "train_time_s": 1.54,
+      "rationale": "Simulates realistic real-time gateway scoring before transaction execution"
+    },
+    {
+      "experiment_name": "Exp 6: Pre-Transaction + Simulated Ledger State (12 features)",
+      "n_features": 11,
+      "features_used": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "oldbalanceDest",
+        "hour_of_day",
+        "day_of_week",
+        "is_merchant_dest",
+        "amount_to_oldbalance_ratio",
+        "type_CASH_OUT",
+        "type_TRANSFER",
+        "orig_emptied"
+      ],
+      "RMSE": 0.00867,
+      "R2": 0.98865,
+      "MAE": 0.00019,
+      "PR_AUC": 0.99016,
+      "ROC_AUC": 0.99576,
+      "F1_Score": 0.99497,
+      "Precision": 1.0,
+      "Recall": 0.99,
+      "TP": 198,
+      "FP": 0,
+      "TN": 29800,
+      "FN": 2,
+      "train_time_s": 1.24,
+      "rationale": "Includes hypothetical empty-account intent without post-execution discrepancies"
+    }
+  ],
+  "feature_importances": {
+    "Exp 1: Full Baseline (Current 18 features)": [
+      [
+        "errorBalanceOrig",
+        5010.1
+      ],
+      [
+        "oldbalanceOrg",
+        2422.23
+      ],
+      [
+        "newbalanceOrig",
+        1565.9
+      ],
+      [
+        "orig_emptied",
+        1323.88
+      ],
+      [
+        "amount_to_oldbalance_ratio",
+        1036.74
+      ],
+      [
+        "dest_zero_end",
+        647.02
+      ],
+      [
+        "amount",
+        211.18
+      ],
+      [
+        "newbalanceDest",
+        172.73
+      ],
+      [
+        "errorBalanceDest",
+        150.1
+      ],
+      [
+        "isFlaggedFraud",
+        118.29
+      ],
+      [
+        "hour_of_day",
+        48.25
+      ],
+      [
+        "step",
+        22.46
+      ],
+      [
+        "dest_zero_start",
+        18.76
+      ],
+      [
+        "oldbalanceDest",
+        6.66
+      ],
+      [
+        "day_of_week",
+        0.25
+      ],
+      [
+        "type_CASH_OUT",
+        0.16
+      ],
+      [
+        "type_TRANSFER",
+        0.02
+      ],
+      [
+        "is_merchant_dest",
+        0.0
+      ]
+    ],
+    "Exp 2: Exclude isFlaggedFraud (17 features)": [
+      [
+        "errorBalanceOrig",
+        5446.22
+      ],
+      [
+        "newbalanceOrig",
+        1431.81
+      ],
+      [
+        "oldbalanceOrg",
+        1310.61
+      ],
+      [
+        "orig_emptied",
+        1151.33
+      ],
+      [
+        "amount_to_oldbalance_ratio",
+        687.56
+      ],
+      [
+        "dest_zero_end",
+        370.3
+      ],
+      [
+        "errorBalanceDest",
+        196.82
+      ],
+      [
+        "newbalanceDest",
+        184.72
+      ],
+      [
+        "amount",
+        152.67
+      ],
+      [
+        "hour_of_day",
+        135.54
+      ],
+      [
+        "dest_zero_start",
+        24.14
+      ],
+      [
+        "step",
+        23.97
+      ],
+      [
+        "day_of_week",
+        16.34
+      ],
+      [
+        "oldbalanceDest",
+        13.37
+      ],
+      [
+        "type_CASH_OUT",
+        0.26
+      ],
+      [
+        "type_TRANSFER",
+        0.18
+      ],
+      [
+        "is_merchant_dest",
+        0.0
+      ]
+    ],
+    "Exp 3: Exclude errorBalanceOrig (17 features)": [
+      [
+        "oldbalanceOrg",
+        2807.96
+      ],
+      [
+        "dest_zero_end",
+        1478.82
+      ],
+      [
+        "amount_to_oldbalance_ratio",
+        1227.68
+      ],
+      [
+        "newbalanceOrig",
+        1157.68
+      ],
+      [
+        "orig_emptied",
+        842.71
+      ],
+      [
+        "newbalanceDest",
+        486.32
+      ],
+      [
+        "hour_of_day",
+        272.03
+      ],
+      [
+        "errorBalanceDest",
+        203.1
+      ],
+      [
+        "amount",
+        180.49
+      ],
+      [
+        "type_CASH_OUT",
+        90.25
+      ],
+      [
+        "step",
+        70.78
+      ],
+      [
+        "type_TRANSFER",
+        47.1
+      ],
+      [
+        "day_of_week",
+        29.77
+      ],
+      [
+        "dest_zero_start",
+        29.65
+      ],
+      [
+        "oldbalanceDest",
+        28.57
+      ],
+      [
+        "isFlaggedFraud",
+        0.0
+      ],
+      [
+        "is_merchant_dest",
+        0.0
+      ]
+    ],
+    "Exp 4: Exclude All Engineered Discrepancies (15 features)": [
+      [
+        "oldbalanceOrg",
+        2079.37
+      ],
+      [
+        "amount_to_oldbalance_ratio",
+        1310.14
+      ],
+      [
+        "dest_zero_end",
+        766.18
+      ],
+      [
+        "newbalanceDest",
+        466.38
+      ],
+      [
+        "newbalanceOrig",
+        317.9
+      ],
+      [
+        "hour_of_day",
+        208.53
+      ],
+      [
+        "amount",
+        156.88
+      ],
+      [
+        "dest_zero_start",
+        61.42
+      ],
+      [
+        "step",
+        40.97
+      ],
+      [
+        "type_CASH_OUT",
+        34.3
+      ],
+      [
+        "oldbalanceDest",
+        17.3
+      ],
+      [
+        "day_of_week",
+        14.42
+      ],
+      [
+        "type_TRANSFER",
+        1.59
+      ],
+      [
+        "isFlaggedFraud",
+        0.0
+      ],
+      [
+        "is_merchant_dest",
+        0.0
+      ]
+    ],
+    "Exp 5: Strict Pre-Transaction Features (Pre-Auth Only, 10 features)": [
+      [
+        "amount_to_oldbalance_ratio",
+        1407.57
+      ],
+      [
+        "oldbalanceOrg",
+        1204.57
+      ],
+      [
+        "amount",
+        176.42
+      ],
+      [
+        "type_CASH_OUT",
+        63.09
+      ],
+      [
+        "hour_of_day",
+        62.13
+      ],
+      [
+        "oldbalanceDest",
+        51.71
+      ],
+      [
+        "step",
+        18.93
+      ],
+      [
+        "type_TRANSFER",
+        6.3
+      ],
+      [
+        "day_of_week",
+        6.22
+      ],
+      [
+        "is_merchant_dest",
+        0.0
+      ]
+    ],
+    "Exp 6: Pre-Transaction + Simulated Ledger State (12 features)": [
+      [
+        "oldbalanceOrg",
+        1867.39
+      ],
+      [
+        "amount_to_oldbalance_ratio",
+        1588.42
+      ],
+      [
+        "orig_emptied",
+        1205.29
+      ],
+      [
+        "amount",
+        177.24
+      ],
+      [
+        "hour_of_day",
+        161.03
+      ],
+      [
+        "type_CASH_OUT",
+        129.96
+      ],
+      [
+        "oldbalanceDest",
+        91.53
+      ],
+      [
+        "step",
+        56.23
+      ],
+      [
+        "type_TRANSFER",
+        13.99
+      ],
+      [
+        "day_of_week",
+        8.21
+      ],
+      [
+        "is_merchant_dest",
+        0.0
+      ]
+    ]
+  }
+}

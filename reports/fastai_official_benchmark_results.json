@@ -1,0 +1,19 @@
+{
+  "model_name": "PyTorch with fastai (Official)",
+  "RMSE": 0.05835,
+  "R2": 0.48591,
+  "MAE": 0.00526,
+  "Accuracy": 0.99663,
+  "Precision": 0.96262,
+  "Recall": 0.515,
+  "F1_Score": 0.67101,
+  "ROC_AUC": 0.80676,
+  "PR_AUC": 0.55696,
+  "TP": 103,
+  "FP": 4,
+  "TN": 29796,
+  "FN": 97,
+  "Training_Time_s": 37.84,
+  "Inference_Time_s": 0.55,
+  "Decision_Threshold": 0.5
+}

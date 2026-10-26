@@ -1,93 +1,174 @@
 # Online Payment Fraud Detection using Machine Learning
 
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Project Phase](https://img.shields.io/badge/Phase-1%3A%20Setup%20%26%20Inspection-success.svg)](#)
-[![Subject](https://img.shields.io/badge/Course-ML%20with%20Business%20Data-orange.svg)](#)
+[![Project Status](https://img.shields.io/badge/Status-Completed%20Academic%20Project-success.svg)](#)
+[![Course](https://img.shields.io/badge/Course-ML%20with%20Business%20Data-orange.svg)](#)
+[![Frameworks](https://img.shields.io/badge/Frameworks-XGBoost%20%7C%20Keras%20%7C%20fastai%20%7C%20TabNet%20%7C%20Lightning-purple.svg)](#)
 
-A structured machine learning college project designed to detect fraudulent transactions in online financial payments using five state-of-the-art modeling frameworks.
+A comprehensive machine learning academic benchmark project evaluating five state-of-the-art modeling frameworks to detect fraudulent transactions in online financial payment streams.
 
 ---
 
 ## 📌 Project Overview
 
-In digital banking and modern e-commerce, real-time automated fraud detection is critical for safeguarding customer assets and minimizing institutional losses. This project analyzes large-scale transactional data to distinguish legitimate financial behavior from illicit, fraudulent activities.
+Digital payment gateways and mobile money transfers process millions of transactions daily. Because fraudulent actors exploit transaction latency and automated account-draining techniques, financial institutions require automated detection models that operate within strict sub-second operational SLAs without flooding compliance teams with false alarms.
 
-### Professor's Assignment Requirements
-1. **Prescribed Dataset**:
-   - Source: [Google Drive Dataset Link](https://drive.google.com/file/d/127JqP3WGjBVihR-ZcUR86T3wwy3_g63v/view)
-   - File ID: `127JqP3WGjBVihR-ZcUR86T3wwy3_g63v`
-   - File: `new_data.csv` (~471 MB)
-2. **Exploratory Data Analysis (EDA)**:
-   - In-depth statistical analysis, distribution of transaction types, class imbalance study, and feature correlation.
-3. **Five Modeling Frameworks**:
+This college project implements an end-to-end machine learning pipeline on a large-scale financial dataset, following the professor's assignment specifications for the course **Machine Learning with Business Data (MLBD)**.
+
+### Professor's Core Assignment Requirements
+1. **Prescribed Dataset**: Acquire and analyze the Google Drive dataset (`new_data.csv`, File ID: `127JqP3WGjBVihR-ZcUR86T3wwy3_g63v`, ~470.7 MB).
+2. **Exploratory Data Analysis (EDA)**: Statistical profiling, transaction type distribution, class skew analysis, and correlation discovery.
+3. **Five Modeling Frameworks**: Implementation and benchmarking of:
    - **XGBoost** (Extreme Gradient Boosting on decision trees)
-   - **Keras** (Neural network architectures)
-   - **PyTorch with fastai** (High-level deep learning abstractions)
-   - **PyTorch with TabNet** (Attentive transformer architecture for tabular data)
-   - **PyTorch with Lightning Flash** (Rapid deep learning prototyping)
-4. **Framework Comparative Evaluation**:
-   - Evaluated across three primary qualitative dimensions: **Simplicity**, **Transparency**, and **Efficacy**.
-5. **Evaluation Metrics**:
-   - Metrics specified by the professor: **RMSE** (Root Mean Squared Error), **R²** (Coefficient of Determination), and **MAE** (Mean Absolute Error).
-   - Complementary classification metrics: **Precision**, **Recall**, **F1-Score**, **ROC-AUC**, and **PR-AUC**.
-6. **Academic Deliverables**:
-   - Structured project report (Introduction, Methodology, EDA, Results, and Conclusion).
-   - Presentation slides and viva voce preparation material.
-   - Clean, version-controlled GitHub repository.
+   - **Keras** (Deep Tabular Multi-Layer Perceptrons with PyTorch backend)
+   - **PyTorch with fastai** (Official `fastai.tabular.all` 2.8.12 with 1-Cycle Cosine Annealing)
+   - **PyTorch with TabNet** (Attentive Transformer architecture for tabular data)
+   - **PyTorch with Lightning Flash** (Implemented via native PyTorch Lightning 2.x `LightningModule` task abstraction; see Disclosure below)
+4. **Qualitative Framework Evaluation**: Systematic comparison across **Simplicity**, **Transparency**, and **Efficacy**.
+5. **Evaluation Metrics**: Adherence to the professor's specified regression metrics (**RMSE**, **R²**, **MAE**) alongside standard fraud classification metrics (**Precision**, **Recall**, **F1-Score**, **ROC-AUC**, and **PR-AUC / AUPRC**).
+6. **Academic Deliverables**: Complete structured report, slide presentation, viva voce preparation materials, and clean version-controlled repository.
 
 ---
 
-## ⚠️ Important Academic Clarification: Problem Formulation & Metrics
+## ⚠️ Important Methodological Disclosures
 
-> **Critical Notice for Evaluation & Viva Voce**:
-> 
-> In traditional financial machine learning, fraud detection is formulated as a **Binary Classification** problem (`isFraud = 0` for legitimate, `isFraud = 1` for fraud) due to extreme class imbalance.
-> 
-> However, the professor's assignment specifications explicitly mandate reporting regression metrics: **RMSE**, **R²**, and **MAE**.
-> 
-> **How this project adheres to the requirements:**
-> - We strictly maintain the professor's requirement: Models output continuous risk scores / posterior probabilities $\hat{y} \in [0, 1]$, and we compute the requested regression metrics (**RMSE**, **R²**, and **MAE**) against true binary labels $y \in \{0, 1\}$.
-> - Alongside regression metrics, we also report standard fraud classification metrics (**Precision**, **Recall**, **F1-Score**, and **AUPRC**) to provide a complete, academically rigorous, and industry-standard comparison.
-> - This dual-evaluation approach ensures strict compliance with grading rubrics while demonstrating deep conceptual understanding during viva questioning.
+### 1. Dual Metric Formulation (Regression Metrics vs. Binary Classification)
+- **The Rubric Specification**: The assignment guidelines mandate reporting regression metrics (**RMSE**, **R²**, and **MAE**).
+- **The Statistical Reality**: Fraud detection is fundamentally a **Binary Classification** problem ($y \in \{0, 1\}$).
+- **Our Resolution**: Models output continuous posterior probabilities $\hat{p} \in [0, 1]$ representing fraud risk scores. Evaluating these continuous risk probabilities against true binary indicators allows computation of the requested regression metrics (penalizing uncalibrated confidence) alongside complementary classification metrics (**Precision**, **Recall**, **F1-Score**, **ROC-AUC**, **PR-AUC**, and full confusion counts). Under extreme class imbalance, when baseline calibration offsets cause $SS_{res} > SS_{tot}$, $R^2$ can become mathematically negative.
+
+### 2. PyTorch Lightning Task Abstraction Disclosure
+The assignment specifies "PyTorch with Lightning Flash". However, Lightning AI **officially deprecated and archived the `lightning-flash` package in 2023** (last release `v0.8.2` in September 2022). It requires legacy dependencies (`pytorch-lightning < 2.0.0` and `torchmetrics < 0.11.0`) that conflict with modern Python 3.13 and PyTorch 2.x environments. To maintain environment stability while honoring the architectural intent of Flash (task-centric tabular abstraction), we implemented the tabular classification task contract directly using native **PyTorch Lightning 2.x (`LightningModule` + `Trainer`)**. We do not claim official `lightning-flash` package usage.
+
+### 3. Synthetic PaySim Dataset Characteristics
+The dataset is generated by **PaySim**, a multi-agent financial simulator (Lopez-Rojas et al., 2016) based on aggregated mobile money logs. Because simulated fraudulent agents were programmed with deterministic rules (e.g. attempting to steal 100% of available account funds in a single transfer), fraud in PaySim is substantially more separable than in real-world banking. Real-world fraud involves stealth evasion, micro-structuring, botnets, and credential stuffing. Consequently, near-perfect tree metrics ($F1=0.9900$) reflect the synthetic simulator dynamics and represent an optimistic upper bound rather than guaranteed production performance.
 
 ---
 
-## 📁 Project Directory Structure
+## 📊 Exploratory Data Analysis (EDA) Highlights
+
+- **Dataset Scale**: **6,362,620 transactions** × **11 attributes** (470.67 MB).
+- **Extreme Class Imbalance**:
+  - Class 0 (Legitimate): **6,354,407 transactions (99.8709%)**
+  - Class 1 (Fraudulent): **8,213 transactions (0.1291%)**
+  - Imbalance Ratio: **`773.7 : 1`**
+  - *Standard accuracy is deceptive*: Predicting all zeroes achieves 99.87% accuracy while missing 100% of fraud.
+- **The Fraud Vector Discovery**:
+  - Fraud occurs **EXCLUSIVELY** in two transaction modalities:
+    - **`TRANSFER`**: 4,097 fraud events (Fraud Rate = 0.77%)
+    - **`CASH_OUT`**: 4,116 fraud events (Fraud Rate = 0.18%)
+    - **`PAYMENT`, `CASH_IN`, `DEBIT`**: Exactly 0 fraudulent events across millions of records.
+  - Fraudsters execute an unauthorized `TRANSFER` to an accomplice account, followed immediately by a `CASH_OUT` to liquidate funds.
+- **Static Rule Engine Failure**:
+  - The built-in rule `isFlaggedFraud` (> 200,000 transfer heuristic) caught only 16 of 8,213 fraud events (**Recall = 0.19%**), proving that static rules must be replaced by adaptive machine learning.
+
+---
+
+## ⚙️ Feature Engineering & Pre-Transaction Ablation Study
+
+### Domain Features Created
+1. `errorBalanceOrig = newbalanceOrig + amount - oldbalanceOrg` (ledger discrepancy signature).
+2. `errorBalanceDest = oldbalanceDest + amount - newbalanceDest` (recipient ledger discrepancy).
+3. `orig_emptied = (newbalanceOrig == 0) & (oldbalanceOrg > 0)` (98% of fraud cases empty the origin account completely).
+4. `hour_of_day = step % 24` (captures anomalous nocturnal fraud spikes between 1:00 AM and 5:00 AM).
+5. `is_merchant_dest = nameDest.startswith('M')` (identifies merchant accounts which have zero fraud incidence).
+
+### Empirical Pre-Transaction Feature Ablation Study
+Because post-transaction balances (`newbalanceOrig`) occur after transaction completion, an empirical ablation study was conducted to prove high model performance is **NOT an artifact of post-transaction balance leakage**:
+- **Full-Ledger Pipeline**: Includes post-transaction balances and discrepancy errors ($\text{PR-AUC} = 0.9940, \text{F1} = 0.9900$).
+- **Strictly Pre-Transaction Pipeline (Ablated)**: Strips all post-transaction balances and error formulas; retains strictly pre-transaction fields available at the instant of authorization ($\text{PR-AUC} = 0.9888, \text{F1} = 0.9703$).
+- **Conclusion**: Performance remains near-perfect even on pre-transaction features alone, driven by PaySim's programmatic fraud heuristic (`amount == oldbalanceOrg`).
+
+---
+
+## 🏆 Comparative Benchmarking Results (Baseline Threshold $\tau = 0.50$)
+
+All models were evaluated on the verified, standardized 30,000-sample test partition (200 true fraud cases, 29,800 legitimate transactions) under identical train/validation/test splits:
+
+| Framework | RMSE (↓) | R² (↑) | MAE (↓) | PR-AUC (↑) | ROC-AUC (↑) | F1-Score (↑) | Recall (↑) | Precision (↑) | TP | FP | TN | FN | Train Time (s) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **XGBoost** | **0.0120** | **0.9784** | **0.0002** | **0.9940** | **0.9992** | **0.9900** | **0.9900** | **0.9900** | 198 | 2 | 29,798 | 2 | **2.41s** |
+| **PyTorch TabNet** | 0.0808 | 0.0131 | 0.0298 | 0.9339 | 0.9969 | 0.6608 | 0.9450 | 0.5081 | 189 | 183 | 29,617 | 11 | 44.86s |
+| **Keras MLP** | 0.0747 | 0.1568 | 0.0186 | 0.9146 | 0.9955 | 0.6459 | 0.9350 | 0.4934 | 187 | 192 | 29,608 | 13 | 43.29s |
+| **PyTorch with fastai (Official)** | **0.0584** | **0.4859** | **0.0053** | 0.5570 | 0.8068 | **0.6710** | 0.5150 | **0.9626** | 103 | **4** | **29,796** | 97 | 37.84s |
+| **PyTorch Lightning (Substitute)** | 0.0960 | -0.3904 | 0.0328 | 0.8998 | 0.9910 | 0.5468 | 0.9350 | 0.3864 | 187 | 297 | 29,503 | 13 | 31.85s |
+
+### Key Benchmark Insights
+1. **fastai Precision–Recall Dynamics**: The official fastai tabular model achieves outstanding **Precision (96.26%)**, generating only 4 false alarms across 29,800 legitimate transactions. At baseline threshold $\tau=0.50$, its recall is 51.50% (misses 97 frauds), yielding the second-lowest RMSE (`0.0584`) and second-highest $R^2$ (`0.4859`).
+2. **Validation-Selected Threshold Finding**: Using validation data only (`X_val`, 15,000 rows), an F1-optimal threshold of $\tau = 0.57$ was identified. When evaluated out-of-sample on the test set, $\tau = 0.57$ reached **100.0% precision ($FP=0, F1=0.6799$)**. This test performance represents an empirical partition observation, not a guarantee of future operational performance.
+3. **Qualitative Rankings**:
+   - **Simplicity**: XGBoost (5/5) > Keras (4.5/5) > Lightning (4/5) = fastai (4/5) > TabNet (3/5).
+   - **Transparency**: TabNet (5/5 — Attention Masks) > XGBoost (4.5/5 — Trees/SHAP) > Lightning (3/5) > fastai (2.5/5) = Keras (2.5/5).
+   - **Efficacy**: XGBoost (5/5) > TabNet (4.5/5) = fastai (4/5) > Keras (4/5) = Lightning (4/5).
+
+---
+
+## 📁 Actual Project Directory Structure
 
 ```text
 mlbd/
 ├── data/
-│   ├── raw/                           # Original, untouched dataset (new_data.csv)
-│   │   └── README.md
-│   └── processed/                     # Cleaned, feature-engineered datasets
-│       └── README.md
-├── notebooks/                         # Exploratory data analysis & prototyping
-├── reports/                           # Generated reports and inspection logs
-│   ├── figures/                       # Saved charts and plots
-│   ├── dataset_inspection_summary.md  # Detailed Phase 1 data inspection report
-│   └── dataset_inspection_summary.json# Machine-readable inspection metadata
-├── scripts/                           # Standalone execution scripts
-│   ├── download_dataset.py            # Automated dataset downloader
-│   └── run_inspection.py              # Dataset inspection runner
-├── src/                               # Modular Python source code
-│   ├── __init__.py
-│   ├── data/                          # Data acquisition and inspection modules
-│   │   ├── __init__.py
-│   │   ├── download.py
-│   │   └── inspect_data.py
-│   └── utils/                         # Shared utility functions
-│       └── __init__.py
-├── .gitignore                         # Comprehensive ignore rules
-├── requirements.txt                   # Project dependencies
-└── README.md                          # Project documentation
+│   ├── raw/
+│   │   ├── new_data.csv                       # Untouched PaySim dataset (470.7 MB, gitignored)
+│   │   └── README.md                          # Data acquisition and schema documentation
+│   └── processed/
+│       └── README.md                          # Processed partition documentation
+├── presentation/
+│   ├── online_payment_fraud_detection.pptx    # Complete 11-slide presentation deck (16:9)
+│   └── presentation_slides.md                 # Markdown slide transcript with speaker notes
+├── reports/
+│   ├── figures/                               # Generated visual charts
+│   │   ├── 01_class_distribution.png
+│   │   ├── 02_transaction_types_and_fraud.png
+│   │   ├── 03_amount_distributions.png
+│   │   ├── 04_balance_anomalies.png
+│   │   ├── 05_correlation_matrix.png
+│   │   ├── 06_temporal_fraud_rate.png
+│   │   ├── 07_model_metrics_comparison.png    # 3-panel comparative bar chart
+│   │   └── 08_roc_pr_curves.png               # ROC and Precision-Recall curves
+│   ├── model_comparison_results.csv           # Master comparative results (CSV)
+│   ├── model_comparison_results.json          # Master comparative results (JSON)
+│   ├── backup_reimplementation_model_comparison_results.csv # Preserved initial backup
+│   ├── backup_reimplementation_model_comparison_results.json# Preserved initial backup
+│   ├── fastai_official_benchmark_results.json # Official fastai benchmark metrics
+│   ├── fastai_benchmark_validation_audit.md   # Pre-approval validation audit report
+│   ├── compliance_and_leakage_audit.md        # Framework compliance & ablation audit
+│   ├── dataset_inspection_summary.md          # Dataset profiling and null/duplicate audit
+│   ├── PROJECT_REPORT.md                      # Comprehensive academic submission report
+│   └── VIVA_PREPARATION_GUIDE.md              # 25 viva questions, answers, and defense tips
+├── scripts/
+│   ├── download_dataset.py                    # Automated dataset downloader
+│   ├── run_inspection.py                      # Dataset inspection runner
+│   ├── run_experiments.py                     # Master end-to-end training pipeline
+│   ├── benchmark_fastai_official.py           # Standalone official fastai benchmark script
+│   ├── audit_leakage_ablation.py              # Pre-transaction ablation study runner
+│   ├── generate_updated_charts.py             # Regenerates figures 07 and 08
+│   ├── generate_pptx.py                       # Regenerates PowerPoint presentation deck
+│   └── verify_project_consistency.py          # Automated cross-file consistency checker
+├── src/
+│   ├── data/                                  # Data download and inspection modules
+│   ├── features/                              # Domain feature engineering & stratified splits
+│   │   └── build_features.py
+│   ├── models/                                # Model architectures & evaluation
+│   │   ├── xgboost_model.py                   # XGBoost implementation
+│   │   ├── keras_model.py                     # Keras MLP implementation
+│   │   ├── fastai_model.py                    # Official fastai 2.8.12 implementation
+│   │   ├── tabnet_model.py                    # PyTorch TabNet implementation
+│   │   ├── lightning_model.py                 # PyTorch Lightning task abstraction
+│   │   └── evaluate.py                        # Metric calculations & summary engine
+│   └── visualization/                         # Exploratory plotting utilities
+│       └── eda_plots.py
+├── .gitignore                                 # Ignore rules for data, checkpoints, and venvs
+├── requirements.txt                           # Complete project dependencies
+└── README.md                                  # Project documentation
 ```
 
 ---
 
-## 🚀 Setup and Installation
+## 🚀 Setup and Execution Instructions
 
 ### 1. Environment Preparation
-Ensure Python 3.10 or higher is installed. Create and activate a virtual environment:
+Ensure Python 3.10, 3.11, 3.12, or 3.13 is installed. Create and activate a clean virtual environment:
 
 ```bash
 # Windows (PowerShell)
@@ -100,46 +181,59 @@ source venv/bin/activate
 ```
 
 ### 2. Install Dependencies
-Install the required packages for initial setup and exploratory data analysis:
+Install all required packages (including core ML libraries, official fastai, and presentation tools):
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Download the Prescribed Dataset
-If the dataset is not yet downloaded, run:
+### 3. Acquire the Dataset
+If `data/raw/new_data.csv` is not already present, run the automated acquisition script:
 
 ```bash
 python scripts/download_dataset.py
 ```
 
-### 4. Run Dataset Inspection
-To perform full schema validation, null checks, duplicate checks, and class distribution analysis:
+### 4. Run the Full Benchmarking Pipeline
+To run the complete end-to-end pipeline (EDA plot generation, feature engineering, stratified splitting, and benchmarking all 5 models):
 
 ```bash
-python scripts/run_inspection.py
+python scripts/run_experiments.py
 ```
 
-Inspection reports will be generated automatically in `reports/dataset_inspection_summary.md`.
+Results will be automatically updated in `reports/model_comparison_results.csv`, `reports/model_comparison_results.json`, and `reports/figures/`.
+
+### 5. Benchmark Official fastai Individually
+To evaluate the official fastai model on the standardized 150k partition:
+
+```bash
+python scripts/benchmark_fastai_official.py
+```
+
+### 6. Regenerate Presentation Deck & Figures
+To regenerate the updated comparison charts and PowerPoint slides:
+
+```bash
+# Regenerate comparative figures 07 and 08
+python scripts/generate_updated_charts.py
+
+# Regenerate PowerPoint presentation (.pptx)
+python scripts/generate_pptx.py
+```
+
+### 7. Run Consistency & Integrity Verification
+To verify cross-file metric agreement, backup integrity, and documentation alignment:
+
+```bash
+python scripts/verify_project_consistency.py
+```
 
 ---
 
-## 📊 Phase 1 Deliverables Summary
+## 🎓 Academic Viva Voce Key Takeaways
 
-- [x] Workspace verification: Confirmed isolated environment separate from external projects.
-- [x] Clean modular project structure implemented.
-- [x] Automated dataset download script with Google Drive session handling.
-- [x] Raw dataset acquisition (`new_data.csv`).
-- [x] Comprehensive inspection module for dimensions, missingness, duplicates, and class balance.
-- [x] Inspection reports saved in `reports/`.
-- [x] Regression vs. classification rubric discrepancy documented for professor review and viva defense.
-- [x] Initial `requirements.txt` configured without unnecessary bloat.
-
----
-
-## 🔮 Roadmap / Next Phases
-
-- **Phase 2**: Exploratory Data Analysis (EDA), distribution visualization, and feature engineering.
-- **Phase 3**: Implementation of the 5 frameworks (XGBoost, Keras, fastai, TabNet, Lightning Flash).
-- **Phase 4**: Comparative framework analysis (Simplicity, Transparency, Efficacy) and metric computation (RMSE, R², MAE + Classification metrics).
-- **Phase 5**: Final report generation, slide presentation, viva guide, and GitHub repository finalization.
+1. **Why XGBoost leads**: Decision trees isolate programmatic step-discrepancy conditions (`errorBalanceOrig == 0` vs `errorBalanceOrig != 0`) instantly, training in 2.41s with an F1-Score of 0.9900.
+2. **Why TabNet matters**: While slower (44.86s), TabNet's sequential attention masks provide regulatory auditability, showing exactly which features drove flagging for each transaction.
+3. **Why fastai has high precision**: Official fastai's weighted cross-entropy loss and embedding architecture produce conservative probabilities, catching 103 frauds with only 4 false alarms across 29,800 test transactions (96.26% precision).
+4. **Why regression metrics are reported**: Mandated by the professor's rubric. Scored on continuous risk probabilities $\hat{p} \in [0, 1]$ against binary targets $y \in \{0, 1\}$.
+5. **Why synthetic data limits production claims**: High performance reflects PaySim simulator agent heuristics rather than real-world adversarial banking evasion.
